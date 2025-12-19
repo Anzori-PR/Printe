@@ -1,3 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+
+
+/* src/styles.scss */
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    /* Mobile padding */
+    padding-left: 15px;
+    /* Mobile padding */
+    margin-right: auto;
+    margin-left: auto;
+
+    /* On bigger screens, give it more breathing room */
+    @media (min-width: 768px) {
+        padding-right: 30px;
+        padding-left: 30px;
+        max-width: 1200px;
+        /* Stop the content from stretching too wide on huge monitors */
+    }
+}
