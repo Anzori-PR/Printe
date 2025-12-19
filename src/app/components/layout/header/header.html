@@ -1,9 +1,17 @@
 <div class="w-full h-18 flex items-center justify-between border-b border-gray-300">
     <div class="container flex items-center justify-between h-full">
-        <h1 class="text-3xl font-bold text-gray-800">Printe</h1>
+        <!-- Logo -->
+        <h1 class="text-3xl font-bold"  (click)="homePage()">პრინტე</h1>
 
         <div class="flex items-center ">
-            
+            <!-- Cart Icon -->
+            <span class="cart inline-flex items-center justify-center rounded-xl p-2 cursor-pointer border border-transparent hover:border-gray-200 transition-all duration-300">
+                <fa-icon class="pointer-events-none text-sm secondTextColor" [icon]="faCart" />
+            </span>
+            <!-- Language -->
+            <span class="language text-sm font-medium ml-4 cursor-pointer">
+                EN
+            </span>
         </div>
     </div>
-</div>
+</div>  
