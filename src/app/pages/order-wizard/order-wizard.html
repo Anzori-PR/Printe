@@ -1,1 +1,80 @@
-<p>order-wizard works!</p>
+<div class="max-w-4xl mx-auto py-10 px-4">
+
+  <div class="flex items-center justify-between mb-12 relative">
+    <div class="absolute left-0 top-1/2 w-full h-1 bg-gray-200 -z-10"></div>
+
+    <div *ngFor="let step of steps" class="flex flex-col items-center bg-white px-2">
+      <div 
+        class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg border-2 transition-colors duration-300"
+        [ngClass]="{
+          'bg-primary border-primary text-black': currentStep >= step.number,
+          'bg-white border-gray-300 text-gray-400': currentStep < step.number
+        }"
+      >
+        {{ step.number }}
+      </div>
+      <span 
+        class="text-sm mt-2 font-medium"
+        [ngClass]="currentStep >= step.number ? 'text-primary' : 'text-gray-400'"
+      >
+        {{ step.title }}
+      </span>
+    </div>
+  </div>
+
+
+  <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 md:p-10 min-h-100">
+    
+    <app-product-selector 
+      *ngIf="currentStep === 1"
+      (productSelected)="onProductSelected($event)">
+    </app-product-selector>
+
+
+    <div *ngIf="currentStep === 2">
+      <h2 class="text-2xl font-bold text-charcoal mb-6">ატვირთე შენი მოგონებები</h2>
+      
+      <app-file-uploader  
+        (filesChanged)="onFilesUpdated($event)">
+      </app-file-uploader>
+
+      <div class="flex justify-between mt-8 border-t pt-6">
+        <button (click)="prevStep()" class="text-gray-500 font-medium hover:text-charcoal">
+          ← უკან
+        </button>
+        <button 
+          (click)="nextStep()" 
+          [disabled]="orderData.uploadedFiles.length === 0"
+          class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+          გაგრძელება →
+        </button>
+      </div>
+    </div>
+
+
+    <div *ngIf="currentStep === 3">
+      <h2 class="text-2xl font-bold text-charcoal mb-6">შეკვეთის დასრულება</h2>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <app-checkout-form></app-checkout-form>
+        
+        <div class="bg-gray-50 p-6 rounded-xl h-fit">
+          <h3 class="font-bold text-lg mb-4">შენი შეკვეთა</h3>
+          <p class="flex justify-between mb-2">
+            <span>პროდუქტი:</span>
+            <span class="font-bold">x {{ orderData.uploadedFiles.length }}</span>
+          </p>
+          <div class="border-t my-4"></div>
+          <p class="flex justify-between text-xl font-bold text-primary">
+            <span>სულ:</span>
+            <span>25.00 ₾</span>
+          </p>
+        </div>
+      </div>
+      
+      <button (click)="prevStep()" class="mt-4 text-gray-500">← უკან</button>
+    </div>
+
+  </div>
+
+</div>

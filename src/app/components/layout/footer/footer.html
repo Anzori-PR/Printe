@@ -1,1 +1,40 @@
-<p>footer works!</p>
+<div class="w-full flex items-center justify-center border-t border-gray-300 bottom-0 secondBgColor py-10">
+    <div class="container grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-10 ">
+        <!-- First Section -->
+        <div class="flex flex-col">
+            <h2 class="pb-2">PRINTE</h2>
+            <div>
+                <p>დაპრინტე მოგონებები</p>
+            </div>
+        </div>
+
+        <!-- Second Section -->
+        <div class="flex flex-col">
+            <h2 class="pb-2">სწრაფი ბმულები</h2>
+            <ul class="flex flex-col space-y-1 secondTextColor">
+                <li><a href="#">მთავარი</a></li>
+                <li><a href="#">პროდუქცია</a></li>
+                <li><a href="#">ჩვენს შსესახებ</a></li>
+            </ul>
+        </div>
+
+        <!-- Third Section -->
+        <div class="flex flex-col">
+            <h2 class="pb-2">ინფორმაცია</h2>
+            <ul class="flex flex-col space-y-1 secondTextColor">
+                <li><a href="#">წესები და პირობები</a></li>
+                <li><a href="#">მიწოდების სერვისი</a></li>
+                <li><a href="#">კონფიდენციალურობა</a></li>
+            </ul>
+        </div>
+
+        <!-- Fourth Section -->
+        <div class="flex flex-col">
+            <h2 class="pb-2">კონტაქტი</h2>
+            <ul class="flex flex-col space-y-1 secondTextColor">
+                <li><fa-icon class="pr-2" [icon]="faPhone"/><a href="tel:+995-598-10-23-08">+995 598 102 308</a></li>
+                <li><fa-icon class="pr-2" [icon]="faMail"/> <a href="mailto:saxelashvilianzori@gmail.com" class="uppercase">printe@gmail.com</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
