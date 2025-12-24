@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class Home {
 
+  scrollToProduct() {
+    const productSection = document.getElementById('product');
+    if (productSection) {
+      productSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

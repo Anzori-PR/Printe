@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Host, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,7 @@ import { faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './header.css',
 })
 export class Header implements OnInit {
+[x: string]: any;
   faCart = faCartShopping;
   faSearch = faSearch;
 
