@@ -204,6 +204,10 @@ p {
   background-color: var(--color-border);
 }
 
+.borderColor {
+  border-color: var(--color-border);
+}
+
 /* Secondary (Badges, Icons, Highlights) */
 .highlightColor {
   border-color: var(--color-secondary);

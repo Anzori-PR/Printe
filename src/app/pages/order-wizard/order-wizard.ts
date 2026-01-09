@@ -12,7 +12,10 @@ import { CheckoutForm } from "../../components/features/checkout-form/checkout-f
 })
 export class OrderWizard {
   @Output() productSelected = new EventEmitter<any>();
+  @Output() filesChanged = new EventEmitter<any>();
   currentStep: number = 1;
+
+  isOpen = false;
 
   // 2. შეკვეთის დროებითი მონაცემები (State)
   orderData = {
@@ -33,12 +36,12 @@ export class OrderWizard {
   // როცა მომხმარებელი ირჩევს პროდუქტს (Step 1 -> Step 2)
   onProductSelected(product: any) {
     this.orderData.selectedProduct = product;
-    this.nextStep();
   }
 
   // როცა ფოტოები აიტვირთა (Step 2-ში რჩება ან გადადის Step 3-ზე)
   onFilesUpdated(files: any) {
     this.orderData.uploadedFiles = files;
+    console.log('Uploaded files:', this.orderData.uploadedFiles);
   }
 
   // მარტივი ნავიგაცია
@@ -49,6 +52,10 @@ export class OrderWizard {
 
   prevStep() {
     if (this.currentStep > 1) this.currentStep--;
+  }
+
+  togglePopover() {
+    this.isOpen = !this.isOpen;
   }
 }
 
