@@ -1,0 +1,125 @@
+<section class="w-full py-10">
+    <div class="container mx-auto px-4">
+
+        <!-- Product details -->
+        <div class="w-full flex gap-10">
+            <!-- Product Images -->
+            <div class="w-[35%] flex flex-col gap-6">
+                <div class="big-image-container ">
+                    <div class="big-image w-full h-112.5 flex items-center justify-center rounded-3xl overflow-hidden">
+                        <img [src]="choosenImage" alt="Product Image" class="w-full h-full object-cover" />
+                    </div>
+                </div>
+
+                <div class="images-wrapper flex gap-4">
+                    <div class="img-item w-24 h-24 rounded-2xl cursor-pointer overflow-hidden border-2 border-gray-200"
+                        [ngClass]="{'highlightColor': choosenImage === '/assets/images/printedImage1.jpg'}"
+                        (click)="selectImage('/assets/images/printedImage1.jpg')">
+                        <img src="/assets/images/printedImage1.jpg" alt="Product Image"
+                            class="w-full h-full object-cover" />
+                    </div>
+                    <div class="img-item w-24 h-24 rounded-2xl cursor-pointer overflow-hidden border-2 border-gray-200"
+                        [ngClass]="{'highlightColor': choosenImage === '/assets/images/printedImage2.jpg'}"
+                        (click)="selectImage('/assets/images/printedImage2.jpg')">
+                        <img src="/assets/images/printedImage2.jpg" alt="Product Image"
+                            class="w-full h-full object-cover" />
+                    </div>
+                    <div class="img-item w-24 h-24 rounded-2xl cursor-pointer overflow-hidden border-2 border-gray-200"
+                        [ngClass]="{'highlightColor': choosenImage === '/assets/images/printedImage4.jpg'}"
+                        (click)="selectImage('/assets/images/printedImage4.jpg')">
+                        <img src="/assets/images/printedImage4.jpg" alt="Product Image"
+                            class="w-full h-full object-cover" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="w-7/12 flex flex-col">
+                <!-- Title -->
+                <h1 class="text-3xl font-bold">სტანდარტული ფოტოები</h1>
+
+                <!-- Price -->
+                <p class="text-2xl! font-bold text-price mt-4 mb-6">5.00 ₾</p>
+
+                <!-- Sub details menu -->
+                <div class="w-full flex flex-col gap-6">
+                    <!-- Menu -->
+                    <div class="w-full flex gap-4 border-b border-bottom">
+                        <button class="px-4 py-2 cursor-pointer" (click)="selectTab('about')"
+                            [ngClass]="{'border-bottom-primary' : setTab === 'about'}">აღწერა</button>
+                        <button class="px-4 py-2 cursor-pointer" (click)="selectTab('prices')"
+                            [ngClass]="{'border-bottom-primary' : setTab === 'prices'}">ფასები</button>
+                        <button class="px-4 py-2 cursor-pointer" (click)="selectTab('delivery')"
+                            [ngClass]="{'border-bottom-primary' : setTab === 'delivery'}">მიწოდება</button>
+                    </div>
+
+                    <!-- ABOUT -->
+                    @switch (setTab) {
+                    @case ('about'){
+                    <div>
+                        <p>
+                            დაბეჭდე ფოტოები სახლიდან გაუსვლელად, შენთვის კომფორტულ დროს,
+                            მობილურიდან ან ლეპტოპიდან.
+                        </p>
+
+                        <ul class="mt-4 space-y-2">
+                            <li>🔹 სტანდარტული ფორმატი: 6x9სმ; 9x13სმ; 10x15სმ...</li>
+                            <li>🔹 FUJIFILM-ის 100 წლიანი ფერების გარანტია</li>
+                        </ul>
+
+                        <p class="mt-4">🌈 დაუმატე ფოტოებს თეთრი ან ფერადი კანტები</p>
+                    </div>
+                    }
+                    @case ('prices'){
+                    <div>
+                        <p>ფოტოების ფასები იწყება 0.30₾-დან</p>
+                    </div>
+                    }
+                    @case ('delivery'){
+                    <div>
+                        <p>მიწოდება მთელი საქართველოს მასშტაბით 🚚</p>
+                    </div>
+                    }
+                    }
+                </div>
+
+                <!-- Order Button  -->
+                <div class="mt-10">
+                    <button class="btn-primary rounded-2xl!">
+                        შეკვეთის დაწყება <fa-icon class="pl-2" [icon]="FaArrowRight" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simmilar Products Section -->
+        <div class="w-full py-20">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold text-[#2D3436] mb-4">მსგავსი პროდუქტები</h2>
+            </div>
+
+            <div class="flex gap-8 flex-wrap ">
+                <div class="card w-80">
+                    <img src="https://www.photobox.co.uk/product-pictures/Prints/product-block/retro.jpg?d=235x235"
+                        alt="ფოტო ბეჭდვა" class="w-full h-48 object-cover rounded-t-2xl">
+                    <div class="py-6">
+                        <h3 class="text-xl font-bold mb-2">ფოტო ბეჭდვა</h3>
+                        <p class="text-[#636E72] mb-4">მაღალი ხარისხის ფოტო ბეჭდვა სხვადასხვა ზომებში.</p>
+                        <button class="btn-primary w-full">აირჩიე</button>
+                    </div>
+                </div>
+
+                <div class="card w-80">
+                    <img src="https://www.photobox.co.uk/product-pictures/Prints/product-block/retro.jpg?d=235x235"
+                        alt="ფოტო ბეჭდვა" class="w-full h-48 object-cover rounded-t-2xl">
+                    <div class="py-6">
+                        <h3 class="text-xl font-bold mb-2">ფოტო ბეჭდვა</h3>
+                        <p class="text-[#636E72] mb-4">მაღალი ხარისხის ფოტო ბეჭდვა სხვადასხვა ზომებში.</p>
+                        <button class="btn-primary w-full">აირჩიე</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
