@@ -14,37 +14,28 @@ interface UploadedPhoto {
   styleUrl: './file-uploader.css',
 })
 export class FileUploader {
-  @Output() filesChanged = new EventEmitter<any>();
+  @Output() filesChanged = new EventEmitter<UploadedPhoto[]>();
 
   faImage = faImage;
   photos: UploadedPhoto[] = [];
 
   constructor(private sanitizer: DomSanitizer) { }
 
+
   // Triggered when files are selected
   onFileSelected(event: any) {
-    const files = event.target.files;
+    const files = Array.from(event.target.files) as File[];
 
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+    const mappedPhotos = files.map(file => ({
+      name: file.name,
+      file,
+      url: this.sanitizer.bypassSecurityTrustUrl(
+        URL.createObjectURL(file)
+      )
+    }));
 
-        // Create a preview URL
-        const objectUrl = URL.createObjectURL(file);
-        // Sanitize the URL so Angular allows it
-        const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-
-        this.photos.push({
-          name: file.name,
-          url: safeUrl
-        });
-
-        this.filesChanged.emit({
-          name: file.name,
-          url: safeUrl
-        });
-      }
-    }
+    this.photos = [...this.photos, ...mappedPhotos];
+    this.filesChanged.emit(this.photos);
   }
 
 }

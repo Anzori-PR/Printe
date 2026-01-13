@@ -68,7 +68,7 @@
       <button (click)="prevStep()" class="text-gray-500 font-medium hover:text-charcoal cursor-pointer">
         ← უკან
       </button>
-      <button (click)="nextStep()" [disabled]="orderData.uploadedFiles.length === 0"
+      <button (click)="nextStep()" [disabled]="orderData.uploadedFiles.length <= 5"
         class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
         გაგრძელება →
       </button>
@@ -84,10 +84,21 @@
 
         <div class="bg-gray-50 p-6 rounded-xl h-fit">
           <h3 class="font-bold text-lg mb-4">შენი შეკვეთა</h3>
-          <p class="flex justify-between mb-2">
-            <span>პროდუქტი:</span>
-            <span class="font-bold">x {{ orderData.uploadedFiles.length }}</span>
-          </p>
+          <table class="w-full">
+            <tr class="flex justify-between mb-2">
+              <th>პროდუქტი</th>
+              <th>ფასი</th>
+              <th>სულ</th>
+              <th></th>
+            </tr>
+            <tr class="border-t border-gray-200 py-2 flex justify-between">
+              <td class="py-2">ფოტოალბომი</td>
+              <td class="py-2">0.25 ₾</td>
+              <td class="py-2">25.00 ₾</td>
+              <td class="py-2"> <fa-icon class="hovershow" [icon]="faTrash" /> </td>
+            </tr>
+          </table>
+
           <div class="border-t my-4"></div>
           <p class="flex justify-between text-xl font-bold text-primary">
             <span>სულ:</span>
@@ -96,7 +107,9 @@
         </div>
       </div>
 
-      <button (click)="prevStep()" class="mt-4 text-gray-500">← უკან</button>
+      <div class="flex justify-between mt-8 border-t border-gray-200 pt-6">
+        <button (click)="prevStep()" class="mt-4 text-gray-500">← უკან</button>
+      </div>
     </div>
     }
 

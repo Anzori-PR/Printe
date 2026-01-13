@@ -1,21 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FileUploader } from "../../components/features/file-uploader/file-uploader";
 import { ProductSelector } from "../../components/features/product-selector/product-selector";
 import { CheckoutForm } from "../../components/features/checkout-form/checkout-form";
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-order-wizard',
-  imports: [CommonModule, FileUploader, ProductSelector, CheckoutForm],
+  imports: [CommonModule, FileUploader, ProductSelector, CheckoutForm, FaIconComponent],
   templateUrl: './order-wizard.html',
   styleUrl: './order-wizard.css',
 })
-export class OrderWizard {
+export class OrderWizard implements OnInit {
   @Output() productSelected = new EventEmitter<any>();
   @Output() filesChanged = new EventEmitter<any>();
   currentStep: number = 1;
 
   isOpen = false;
+  faTrash = faTrashAlt;
+  uploadedFiles: any[] = [];
 
   // 2. შეკვეთის დროებითი მონაცემები (State)
   orderData = {
@@ -24,12 +28,17 @@ export class OrderWizard {
     customerDetails: null  // სახელი, გვარი...
   };
 
+
   // ნაბიჯების სახელები (ვიზუალისთვის)
   steps = [
     { number: 1, title: 'აირჩიე ზომა' },
     { number: 2, title: 'ატვირთე ფოტოები' },
     { number: 3, title: 'გადახდა' }
   ];
+
+  ngOnInit(): void {
+    console.log(this.orderData);
+  }
 
   // --- LOGIC ---
 
@@ -56,6 +65,10 @@ export class OrderWizard {
 
   togglePopover() {
     this.isOpen = !this.isOpen;
+  }
+
+  submitCheckOut() {
+    
   }
 }
 
