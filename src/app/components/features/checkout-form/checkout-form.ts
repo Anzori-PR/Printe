@@ -1,6 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout-form',
@@ -9,10 +11,10 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   styleUrl: './checkout-form.css',
 })
 export class CheckoutForm implements OnInit {
-
+  @Output() customerInfo = new EventEmitter<any>();
   checkoutForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private sanitizer: DomSanitizer, private router: Router) { }
 
   ngOnInit(): void {
     // Initialization logic here
@@ -27,16 +29,6 @@ export class CheckoutForm implements OnInit {
     });
   }
 
-  submit() {
-    if (this.checkoutForm.invalid) {
-      this.checkoutForm.markAllAsTouched();
-      return;
-    }
-    console.log('Form submitted');
-    console.log('FORM DATA 👉', this.checkoutForm.value);
-
-  }
-
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -46,4 +38,12 @@ export class CheckoutForm implements OnInit {
     }
   }
 
+  submit() {
+    if (this.checkoutForm.invalid) {
+      this.checkoutForm.markAllAsTouched();
+      return;
+    }
+    this.customerInfo.emit(this.checkoutForm.value);
+    localStorage.setItem('customerInfo', JSON.stringify(this.checkoutForm.value));
+  }
 }

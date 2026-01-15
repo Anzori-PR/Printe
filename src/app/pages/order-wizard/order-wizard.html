@@ -80,7 +80,7 @@
       <h2 class="text-2xl font-bold text-charcoal mb-6">შეკვეთის დასრულება</h2>
 
       <div class="grid md:grid-cols-2 gap-8">
-        <app-checkout-form></app-checkout-form>
+        <app-checkout-form (customerInfo)="onSubmit($event)"></app-checkout-form>
 
         <div class="bg-gray-50 p-6 rounded-xl h-fit">
           <h3 class="font-bold text-lg mb-4">შენი შეკვეთა</h3>

@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FaIconComponent, } from "@fortawesome/angular-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 
 interface UploadedPhoto {
   name: string;
-  url: SafeUrl; // Changed string to SafeUrl
+  url: string;
 }
 @Component({
   selector: 'app-file-uploader',
@@ -13,13 +12,21 @@ interface UploadedPhoto {
   templateUrl: './file-uploader.html',
   styleUrl: './file-uploader.css',
 })
-export class FileUploader {
+export class FileUploader implements OnInit{
   @Output() filesChanged = new EventEmitter<UploadedPhoto[]>();
 
   faImage = faImage;
   photos: UploadedPhoto[] = [];
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor() { }
+
+  ngOnInit(): void {
+    const savedPhotos = localStorage.getItem('uploadedPhotos');
+    if (savedPhotos) {
+      this.photos = JSON.parse(savedPhotos);
+    }
+    console.log('Loaded photos from storage:', this.photos);
+  }
 
 
   // Triggered when files are selected
@@ -27,11 +34,9 @@ export class FileUploader {
     const files = Array.from(event.target.files) as File[];
 
     const mappedPhotos = files.map(file => ({
+      file: file,
       name: file.name,
-      file,
-      url: this.sanitizer.bypassSecurityTrustUrl(
-        URL.createObjectURL(file)
-      )
+      url: URL.createObjectURL(file)
     }));
 
     this.photos = [...this.photos, ...mappedPhotos];

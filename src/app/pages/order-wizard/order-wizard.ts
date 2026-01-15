@@ -5,6 +5,8 @@ import { ProductSelector } from "../../components/features/product-selector/prod
 import { CheckoutForm } from "../../components/features/checkout-form/checkout-form";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { OrderStateService } from '../../services/order-state-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-wizard',
@@ -13,13 +15,14 @@ import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
   styleUrl: './order-wizard.css',
 })
 export class OrderWizard implements OnInit {
-  @Output() productSelected = new EventEmitter<any>();
-  @Output() filesChanged = new EventEmitter<any>();
+
   currentStep: number = 1;
 
   isOpen = false;
   faTrash = faTrashAlt;
   uploadedFiles: any[] = [];
+
+  constructor(private orderService: OrderStateService, private router : Router) { }
 
   // 2. შეკვეთის დროებითი მონაცემები (State)
   orderData = {
@@ -40,8 +43,6 @@ export class OrderWizard implements OnInit {
     console.log(this.orderData);
   }
 
-  // --- LOGIC ---
-
   // როცა მომხმარებელი ირჩევს პროდუქტს (Step 1 -> Step 2)
   onProductSelected(product: any) {
     this.orderData.selectedProduct = product;
@@ -53,10 +54,54 @@ export class OrderWizard implements OnInit {
     console.log('Uploaded files:', this.orderData.uploadedFiles);
   }
 
+  onSubmit(customerData: any) {
+    this.orderData.customerDetails = customerData;
+    console.log('Customer Data:', this.orderData.customerDetails);
+    // Create the FormData object
+    const formData = new FormData();
+
+    // 1. Append Customer Details
+    formData.append('fullName', customerData.name + ' ' + customerData.surname);
+    formData.append('phone', customerData.phone);
+    formData.append('address', customerData.location);
+    formData.append('bank', customerData.bank || 'Not Specified');
+
+    // 2. Append Product Details
+    if (this.orderData.selectedProduct) {
+      const product: any = this.orderData.selectedProduct;
+      formData.append('productName', product.title || 'Photo Print');
+      formData.append('productSize', product.size || '9x13');
+    }
+
+    // 3. Append the Payment Receipt (if your CheckoutForm provides it)
+    if (customerData.receipt) {
+      formData.append('receiptImage', customerData.receipt);
+    }
+
+    // 4. Append the Photos to print
+    this.orderData.uploadedFiles.forEach((fileItem: any) => {
+      if (fileItem.file) {
+        formData.append('photos', fileItem.file);
+      }
+    });
+
+    // 5. Send to Backend
+    this.orderService.createOrder(formData).subscribe({
+      next: (response: any) => {
+        console.log('Order saved in db.json:', response);
+        alert('შეკვეთა წარმატებით გაიგზავნა!');
+      },
+      error: (err: any) => {
+        console.error('Upload failed:', err);
+        alert('შეკვეთის გაგზავნა ვერ მოხერხდა');
+      }
+    });
+  }
+
+
   // მარტივი ნავიგაცია
   nextStep() {
     if (this.currentStep < 3) this.currentStep++;
-    // აქ შეგიძლია დაამატო "სქროლი ზევით" ლოგიკა
   }
 
   prevStep() {
@@ -65,10 +110,6 @@ export class OrderWizard implements OnInit {
 
   togglePopover() {
     this.isOpen = !this.isOpen;
-  }
-
-  submitCheckOut() {
-    
   }
 }
 
