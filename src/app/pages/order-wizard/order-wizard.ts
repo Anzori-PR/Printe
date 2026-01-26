@@ -7,6 +7,7 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { OrderStateService } from '../../services/order-state-service';
 import { Router } from '@angular/router';
+import { OrderDraftService } from '../../services/order-draft';
 
 @Component({
   selector: 'app-order-wizard',
@@ -21,8 +22,9 @@ export class OrderWizard implements OnInit {
   isOpen = false;
   faTrash = faTrashAlt;
   uploadedFiles: any[] = [];
+  resetUploader = false;
 
-  constructor(private orderService: OrderStateService, private router : Router) { }
+  constructor(private orderService: OrderStateService, private router: Router, private orderDraft : OrderDraftService) { }
 
   // 2. შეკვეთის დროებითი მონაცემები (State)
   orderData = {
@@ -51,7 +53,6 @@ export class OrderWizard implements OnInit {
   // როცა ფოტოები აიტვირთა (Step 2-ში რჩება ან გადადის Step 3-ზე)
   onFilesUpdated(files: any) {
     this.orderData.uploadedFiles = files;
-    console.log('Uploaded files:', this.orderData.uploadedFiles);
   }
 
   onSubmit(customerData: any) {
@@ -87,9 +88,15 @@ export class OrderWizard implements OnInit {
 
     // 5. Send to Backend
     this.orderService.createOrder(formData).subscribe({
-      next: (response: any) => {
-        console.log('Order saved in db.json:', response);
-        alert('შეკვეთა წარმატებით გაიგზავნა!');
+      next: () => {
+
+        // Clear state
+        this.orderDraft.clear();
+        this.orderData.uploadedFiles = [];
+        this.resetUploader = true;
+        setTimeout(() => this.resetUploader = false);
+
+        this.router.navigate(['/success']);
       },
       error: (err: any) => {
         console.error('Upload failed:', err);
